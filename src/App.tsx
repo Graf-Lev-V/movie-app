@@ -21,10 +21,12 @@ export default function App() {
     setError(null);
     (async () => {
       try {
-        const response = await fetch(`https://www.omdbapi.com/?apikey=8db4a259&s=${query}`, {signal: controller.signal});
+        const response = await fetch(`https://www.omdbapi.com/?apikey=8db4a259&s=${query.trim()}`, {signal: controller.signal});
         if (!response.ok) throw new Error ('Error');
         const data = await response.json();
-        setMovies(data.Search);
+        console.log(data)
+        if (data.Response === 'False') setError(data.Error);
+        else setMovies(data.Search);
       }
       catch (error) {
         if (error instanceof Error && error.name !== 'AbortError') {
@@ -70,7 +72,7 @@ export default function App() {
       <SearchBar query={query} setQuery={setQuery}/>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      <MovieList movies={movies} toggleFavorites={toggleFavorites} favorites={favorites}/>
+      {!loading && !error && <MovieList movies={movies} toggleFavorites={toggleFavorites} favorites={favorites}/>}
       </> :
       <Favorites favorites={favorites} toggleFavorites={toggleFavorites}/>}
     </>

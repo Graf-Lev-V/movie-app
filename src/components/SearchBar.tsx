@@ -6,7 +6,7 @@ type SearchBarProps = {
 export default function SearchBar({ query, setQuery }: SearchBarProps) {
     return (
         <>
-            <input value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="title"/>
             <hr/>
         </>
     )
