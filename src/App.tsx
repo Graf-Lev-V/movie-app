@@ -19,12 +19,12 @@ export default function App() {
   function fetchMovies(query: string, controller: AbortController): void {
     setLoading(true);
     setError(null);
+    setMovies([]);
     (async () => {
       try {
         const response = await fetch(`https://www.omdbapi.com/?apikey=8db4a259&s=${query.trim()}`, {signal: controller.signal});
         if (!response.ok) throw new Error ('Error');
         const data = await response.json();
-        console.log(data)
         if (data.Response === 'False') setError(data.Error);
         else setMovies(data.Search);
       }
